@@ -1,0 +1,101 @@
+<!DOCTYPE html>
+<HTML lang="en">
+<head>
+    <title>SP500 Historical</title>
+    <link href="/static/css/my_style.css" rel="stylesheet">
+    <script type="text/javascript" src="https://cdn.jsdelivr.net/npm/chart.js"> </script>
+</head>
+
+<body>
+<form method="post" enctype="multipart/form-data">
+    {% csrf_token %}
+    <div class="center">
+        <H1>S&P 500 Historical Data</H1>
+        <input type=hidden id="lineText" valign="top" rows="3" cols="80"
+            style="width:720px;height:32px"
+            value="{% for record in array_table %}{{ record.timestamp }}:{{ record.close }}#{% endfor %}"/>
+        <table>
+        </table>
+        <input type="text" id="ticker" name="ticker" value="{{ ticker }}">
+        Start Date:  <input type="date" width="16" id="start" name="start" value="{{ start }}">
+        End Date:  <input type="date" width="16" id="end" name="end" value="{{ end }}">
+        <button type="submit" value="display" name="display">Display</button>&nbsp;
+        <div class="center">
+            <canvas id="linegraph" width="1024" height="256"></canvas>
+        </div>
+
+        <script>
+        function getDates() {
+            var dateElems = document.getElementsByName('date')
+            var dates = [];
+            for(d in dateElems) {
+                dates += d.innerText;
+            }
+            return dates;
+        }
+        function getdata() {
+        }
+
+        var ctx = document.getElementById('linegraph').getContext('2d');
+        var myChart = new Chart(ctx, {
+            type: 'line',
+            data: {
+                labels: getDates(),
+                datasets: [{
+                    label: '# of Votes',
+                    data: {{ close_table }},
+                    backgroundColor: [
+                        'rgba(255, 99, 132, 0.2)',
+                        'rgba(54, 162, 235, 0.2)',
+                        'rgba(255, 206, 86, 0.2)',
+                        'rgba(75, 192, 192, 0.2)',
+                        'rgba(153, 102, 255, 0.2)',
+                        'rgba(255, 159, 64, 0.2)'
+                    ],
+                    borderColor: [
+                        'rgba(255, 99, 132, 1)',
+                        'rgba(54, 162, 235, 1)',
+                        'rgba(255, 206, 86, 1)',
+                        'rgba(75, 192, 192, 1)',
+                        'rgba(153, 102, 255, 1)',
+                        'rgba(255, 159, 64, 1)'
+                    ],
+                    borderWidth: 1
+                }]
+            },
+            options: {
+                scales: {
+                    y: {
+                        beginAtZero: false
+                    }
+                }
+            }
+        });
+    </script>
+
+        <script type = "text/javascript">
+        </script>
+        <table>
+        <tr>
+            <td><b>Date</b></td>
+            <td><b>Open</b></td>
+            <td><b>High</b></td>
+            <td><b>Low</b></td>
+            <td><b>Close</b></td>
+            <td><b>Adj. Close</b></td>
+        </tr>
+        {% for record in array_table %}
+            <tr>
+                <td name="date">{{ record.date }}</td>
+                <td>{{ record.opening }}</td>
+                <td>{{ record.high }}</td>
+                <td>{{ record.low }}</td>
+                <td name="close">{{ record.close }}</td>
+                <td>{{ record.adj_close }}</td>
+            </tr>
+        {% endfor %}
+        </table>
+    </div>
+</form>
+</body>
+</HTML>

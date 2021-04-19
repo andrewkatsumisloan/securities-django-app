@@ -15,10 +15,9 @@ Including another URLconf
 """
 from django.conf.urls import url
 from django.contrib import admin
-from example_app.views import index
-from example_app.views import db_init 
+from securities_app.views import index
 
 urlpatterns = [
-    url(r'^example_app/', index),
+    url(r'^securities_app/', index),
     url(r'^admin/', admin.site.urls),
 ]

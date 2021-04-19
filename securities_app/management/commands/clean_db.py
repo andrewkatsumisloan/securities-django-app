@@ -3,7 +3,7 @@ from __future__ import unicode_literals
 from django.shortcuts import render
 from django.http import HttpResponse
 
-from example_app.models import *
+from securities_app.models import *
 
 import os
 import re
@@ -28,7 +28,5 @@ class Command(BaseCommand):
 
 
     def handle(self, *args, **options):
-
-
         OHLC.objects.all().delete()
 

@@ -3,29 +3,18 @@ from __future__ import unicode_literals
 from django.shortcuts import render
 from django.http import HttpResponse
 
-from example_app.models import *
+from securities_app.models import *
 
 import os
 import re
-import shutil
-import sys
-import tempfile
-import base64
-import requests
-import json
-import datetime
-import time
 
 # -*- coding: utf-8 -*-n
 from django.core.management.base import BaseCommand, CommandError
-
-
 class Command(BaseCommand):
     help = 'Closes the specified poll for voting'
 
     def add_arguments(self, parser):
         pass
-
 
     def handle(self, *args, **options):
         csv_dir = "/Users/AKS/securities-data/SP500_DATA/Individual/"
@@ -62,5 +51,4 @@ class Command(BaseCommand):
                         records = []
 
             OHLC.objects.bulk_create(records)
-
 

@@ -5,6 +5,7 @@ from django.db import models
 
 # Create your models here.
 
+
 class OHLC(models.Model):
     ticker = models.CharField(max_length=128)
     date = models.DateField()
